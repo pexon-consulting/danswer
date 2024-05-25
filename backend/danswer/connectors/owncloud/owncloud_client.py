@@ -33,12 +33,7 @@ class OwnCloudClient:
         url = f"{self.base_url}/{url}"
         return requests.request(method=method, url=url, auth=(self.username, self.password), **kwargs)
     
-    def is_folder(self, file_path):
-        response = self._dispatch_authenticated_request(method="PROPFIND", url=f"remote.php/dav/files/{self.username}/{file_path}")
-        tree = ElementTree.fromstring(response.content)
-        prop = tree.find("{DAV:}prop")
-        if prop is None:
-            return False
+    def is_folder(self, prop: ElementTree.Element) -> bool:
         resourcetype = prop.find("{DAV:}resourcetype")
         if resourcetype is None:
             return False
@@ -56,7 +51,7 @@ class OwnCloudClient:
             prop = propstat.find("{DAV:}prop")
             if prop is None:
                 continue
-            if self.is_folder(href):
+            if self.is_folder(prop):
                 continue
             etag = prop.find("{DAV:}getetag")
             if etag is None:

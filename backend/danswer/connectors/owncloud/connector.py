@@ -1,10 +1,8 @@
 import io
-from datetime import datetime, timezone
+from datetime import datetime
+from datetime import timezone
 from typing import Any
-from danswer.connectors.interfaces import LoadConnector
-from danswer.connectors.interfaces import PollConnector
-from danswer.connectors.owncloud.owncloud_client import OwnCloudClient
-from danswer.connectors.owncloud.owncloud_client import OwnCloudFileObject
+
 from danswer.configs.app_configs import INDEX_BATCH_SIZE
 from danswer.configs.constants import DocumentSource
 from danswer.connectors.interfaces import GenerateDocumentsOutput
@@ -15,6 +13,8 @@ from danswer.connectors.models import BasicExpertInfo
 from danswer.connectors.models import ConnectorMissingCredentialError
 from danswer.connectors.models import Document
 from danswer.connectors.models import Section
+from danswer.connectors.owncloud.owncloud_client import OwnCloudClient
+from danswer.connectors.owncloud.owncloud_client import OwnCloudFileObject
 from danswer.file_processing.extract_file_text import docx_to_text
 from danswer.file_processing.extract_file_text import file_io_to_text
 from danswer.file_processing.extract_file_text import is_text_file_extension
@@ -28,7 +28,6 @@ logger = setup_logger()
 
 
 class OwnCloudConnector(LoadConnector, PollConnector):
-    
     oc_client: OwnCloudClient | None = None
 
     def __init__(self) -> None:
@@ -38,7 +37,9 @@ class OwnCloudConnector(LoadConnector, PollConnector):
         self.base_url = credentials.get("base_url")
         username = credentials.get("username")
         password = credentials.get("password")
-        self.oc_client = OwnCloudClient(base_url=self.base_url, username=username, password=password)
+        self.oc_client = OwnCloudClient(
+            base_url=self.base_url, username=username, password=password
+        )
 
     def get_all_files(self):
         return self.oc_client.get_all_files()
@@ -66,10 +67,13 @@ class OwnCloudConnector(LoadConnector, PollConnector):
                 title=file.file_name,
                 text=text,
                 semantic_identifier=file.file_name,
-                sections=[Section(link=self.oc_client.construct_file_url(file.file_name), text=text)],
-                primary_owners=[BasicExpertInfo(
-                    display_name=self.oc_client.username
-                )],
+                sections=[
+                    Section(
+                        link=self.oc_client.construct_file_url(file.file_name),
+                        text=text,
+                    )
+                ],
+                primary_owners=[BasicExpertInfo(display_name=self.oc_client.username)],
                 metadata={},
             )
 
@@ -91,14 +95,18 @@ class OwnCloudConnector(LoadConnector, PollConnector):
                 yield doc_batch
                 doc_batch = []
         yield doc_batch
-        
-    
+
     def load_from_state(self) -> GenerateDocumentsOutput:
         if not self.oc_client:
+            logger.error(
+                "OwnCloud connector missing credentials, was load_credentials called?"
+            )
             raise ConnectorMissingCredentialError("OwnCloud")
         return self._full_pipeline(datetime.min, datetime.max)
-    
-    def poll_source(self, start: SecondsSinceUnixEpoch, end: SecondsSinceUnixEpoch) -> GenerateDocumentsOutput:
+
+    def poll_source(
+        self, start: SecondsSinceUnixEpoch, end: SecondsSinceUnixEpoch
+    ) -> GenerateDocumentsOutput:
         if not self.oc_client:
             raise ConnectorMissingCredentialError("OwnCloud")
         start_datetime = datetime.fromtimestamp(start)

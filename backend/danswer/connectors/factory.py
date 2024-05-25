@@ -26,6 +26,7 @@ from danswer.connectors.loopio.connector import LoopioConnector
 from danswer.connectors.mediawiki.wiki import MediaWikiConnector
 from danswer.connectors.models import InputType
 from danswer.connectors.notion.connector import NotionConnector
+from danswer.connectors.owncloud.connector import OwnCloudConnector
 from danswer.connectors.productboard.connector import ProductboardConnector
 from danswer.connectors.requesttracker.connector import RequestTrackerConnector
 from danswer.connectors.sharepoint.connector import SharepointConnector
@@ -78,6 +79,7 @@ def identify_connector_class(
         DocumentSource.AXERO: AxeroConnector,
         DocumentSource.MEDIAWIKI: MediaWikiConnector,
         DocumentSource.WIKIPEDIA: WikipediaConnector,
+        DocumentSource.OWNCLOUD: OwnCloudConnector,
     }
     connector_by_source = connector_map.get(source, {})
 

@@ -98,6 +98,7 @@ class DocumentSource(str, Enum):
     AXERO = "axero"
     MEDIAWIKI = "mediawiki"
     WIKIPEDIA = "wikipedia"
+    OWNCLOUD = "owncloud"
 
 
 class DocumentIndexType(str, Enum):

@@ -63,10 +63,10 @@ const Main = () => {
     (connectorIndexingStatus) =>
       connectorIndexingStatus.connector.source === "owncloud"
   );
-  const owncloudCredential: Credential<OwnCloudCredentialJson> | undefined = 
-  credentialsData.filter(
-    (credential) => credential.credential_json?.password
-  )[0];
+  const owncloudCredential: Credential<OwnCloudCredentialJson> | undefined =
+    credentialsData.filter(
+      (credential) => credential.credential_json?.password
+    )[0];
 
   return (
     <>
@@ -107,9 +107,7 @@ const Main = () => {
         </>
       ) : (
         <>
-          <Text>
-            Fill following details about your OwnCloud Account
-          </Text>
+          <Text>Fill following details about your OwnCloud Account</Text>
           <Card className="mt-4 mb-4">
             <CredentialForm<OwnCloudCredentialJson>
               formBody={
@@ -118,10 +116,7 @@ const Main = () => {
                     name="base_url"
                     label="OwnCloud base url (https://oc.mycompany.com):"
                   />
-                  <TextFormField
-                    name="username"
-                    label="OwnCloud Username:"
-                  />
+                  <TextFormField name="username" label="OwnCloud Username:" />
                   <TextFormField
                     name="password"
                     label="Client Secret:"
@@ -133,9 +128,7 @@ const Main = () => {
                 base_url: Yup.string().required(
                   "Please enter the base url for your OwnCloud instance"
                 ),
-                username: Yup.string().required(
-                  "Please enter your client ID."
-                ),
+                username: Yup.string().required("Please enter your client ID."),
                 password: Yup.string().required(
                   "Please enter your client Secret."
                 ),

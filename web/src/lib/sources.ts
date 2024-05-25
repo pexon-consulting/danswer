@@ -18,6 +18,7 @@ import {
   LinearIcon,
   LoopioIcon,
   NotionIcon,
+  OwnCloudIcon,
   ProductboardIcon,
   RequestTrackerIcon,
   SharepointIcon,
@@ -91,6 +92,11 @@ const SOURCE_METADATA_MAP: SourceMap = {
   notion: {
     icon: NotionIcon,
     displayName: "Notion",
+    category: SourceCategory.AppConnection,
+  },
+  owncloud: {
+    icon: OwnCloudIcon,
+    displayName: "OwnCloud",
     category: SourceCategory.AppConnection,
   },
   zendesk: {

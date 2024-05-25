@@ -42,7 +42,8 @@ export type ValidSources =
   | "discourse"
   | "axero"
   | "wikipedia"
-  | "mediawiki";
+  | "mediawiki"
+  | "owncloud";
 
 export type ValidInputTypes = "load_state" | "poll" | "event";
 export type ValidStatuses =
@@ -82,6 +83,8 @@ export interface WebConfig {
   base_url: string;
   web_connector_type?: "recursive" | "single" | "sitemap";
 }
+
+export interface OwnCloudConfig {}
 
 export interface GithubConfig {
   repo_owner: string;
@@ -366,6 +369,12 @@ export interface DiscourseCredentialJson {
 export interface AxeroCredentialJson {
   base_url: string;
   axero_api_token: string;
+}
+
+export interface OwnCloudCredentialJson {
+  username: string;
+  base_url: string;
+  password: string;
 }
 
 export interface MediaWikiCredentialJson {}

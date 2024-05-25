@@ -55,6 +55,7 @@ import sharepointIcon from "../../../public/Sharepoint.png";
 import mediawikiIcon from "../../../public/MediaWiki.svg";
 import wikipediaIcon from "../../../public/Wikipedia.svg";
 import discourseIcon from "../../../public/Discourse.png";
+import owncloudIcon from "../../../public/OwnCloud.png";
 import { FaRobot } from "react-icons/fa";
 
 interface IconProps {
@@ -546,6 +547,18 @@ export const GongIcon = ({
     className={`w-[${size}px] h-[${size}px] ` + className}
   >
     <Image src={gongIcon} alt="Logo" width="96" height="96" />
+  </div>
+);
+
+export const OwnCloudIcon = ({
+  size = 16,
+  className = defaultTailwindCSS,
+}: IconProps) => (
+  <div
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ` + className}
+  >
+    <Image src={owncloudIcon} alt="Logo" width="194" height="96" />
   </div>
 );
 

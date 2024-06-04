@@ -8,10 +8,10 @@ import {
   User,
   ValidSources,
 } from "@/lib/types";
-import { ChatSession } from "@/app/chat/interfaces";
-import { Persona } from "@/app/admin/assistants/interfaces";
-import { LLMProviderDescriptor } from "@/app/admin/models/llm/interfaces";
-import { Folder } from "@/app/chat/folders/interfaces";
+import { ChatSession } from "@/app/[locale]/chat/interfaces";
+import { Persona } from "@/app/[locale]/admin/assistants/interfaces";
+import { LLMProviderDescriptor } from "@/app/[locale]/admin/models/llm/interfaces";
+import { Folder } from "@/app/[locale]/chat/folders/interfaces";
 
 interface ChatContextProps {
   user: User | null;

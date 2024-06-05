@@ -11,6 +11,8 @@ import {
 } from "@/lib/types";
 import Link from "next/link";
 
+import { useTranslation } from "react-i18next";
+
 interface ConnectorTitleProps {
   connector: Connector<any>;
   ccPairId: number;
@@ -31,6 +33,10 @@ export const ConnectorTitle = ({
   showMetadata = true,
 }: ConnectorTitleProps) => {
   const sourceMetadata = getSourceMetadata(connector.source);
+  let { t, ready } = useTranslation(`conn_${connector.source}`);
+  if (!ready) {
+    (t as any) = (input: any) => input;
+  }
 
   let additionalMetadata = new Map<string, string>();
   if (connector.source === "github") {
@@ -64,7 +70,7 @@ export const ConnectorTitle = ({
       typedConnector.connector_specific_config?.folder_paths.length > 0
     ) {
       additionalMetadata.set(
-        "Folders",
+        t("Folders"),
         typedConnector.connector_specific_config.folder_paths.join(", ")
       );
     }
@@ -79,7 +85,7 @@ export const ConnectorTitle = ({
       typedConnector.connector_specific_config?.channels.length > 0
     ) {
       additionalMetadata.set(
-        "Channels",
+        t("Channels"),
         typedConnector.connector_specific_config.channels.join(", ")
       );
     }
@@ -89,7 +95,7 @@ export const ConnectorTitle = ({
   } else if (connector.source === "zulip") {
     const typedConnector = connector as Connector<ZulipConfig>;
     additionalMetadata.set(
-      "Realm",
+      t("Realm"),
       typedConnector.connector_specific_config.realm_name
     );
   }

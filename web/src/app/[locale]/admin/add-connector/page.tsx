@@ -5,6 +5,7 @@ import { SourceCategory, SourceMetadata } from "@/lib/search/interfaces";
 import { listSourceMetadata } from "@/lib/sources";
 import { Title, Text } from "@tremor/react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 function SourceTile({ sourceMetadata }: { sourceMetadata: SourceMetadata }) {
   return (
@@ -33,6 +34,7 @@ function SourceTile({ sourceMetadata }: { sourceMetadata: SourceMetadata }) {
 
 export default function Page() {
   const sources = listSourceMetadata();
+  const { t } = useTranslation("connectors");
 
   const importedKnowledgeSources = sources.filter(
     (source) => source.category === SourceCategory.ImportedKnowledge
@@ -45,22 +47,18 @@ export default function Page() {
     <div className="mx-auto container">
       <AdminPageTitle
         icon={<ConnectorIcon size={32} />}
-        title="Add Connector"
+        title={t("Add Connector")}
       />
 
       <Text>
-        Connect Danswer to your organization&apos;s knowledge sources.
-        We&apos;ll automatically sync your data into Danswer, so you can find
-        exactly what you&apos;re looking for in one place.
+        {t("Description 1")}
       </Text>
 
       <div className="flex mt-8">
-        <Title>Import Knowledge</Title>
+        <Title>{t("Import Knowledge")}</Title>
       </div>
       <Text>
-        Connect to pieces of knowledge that live outside your apps. Upload
-        files, scrape websites, or connect to your organization&apos;s Google
-        Site.
+        {t("Import Knowledge - Description")}
       </Text>
       <div className="flex flex-wrap gap-4 p-4">
         {importedKnowledgeSources.map((source) => {
@@ -71,12 +69,10 @@ export default function Page() {
       </div>
 
       <div className="flex mt-8">
-        <Title>Setup Auto-Syncing from Apps</Title>
+        <Title>{t("Setup Auto-Syncing from Apps")}</Title>
       </div>
       <Text>
-        Setup auto-syncing from your organization&apos;s most used apps and
-        services. Unless otherwise specified during the connector setup, we will
-        pull in the latest updates from the source every 10 minutes.
+        {t("Setup Auto-Syncing from Apps - Description")}
       </Text>
       <div className="flex flex-wrap gap-4 p-4">
         {appConnectionSources.map((source) => {

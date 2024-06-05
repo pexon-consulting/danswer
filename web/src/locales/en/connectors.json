@@ -1,0 +1,28 @@
+{
+    "Add Connector": "Add Connector",
+    "Description 1": "Connect Danswer to your organization&apos;s knowledge sources. We&apos;ll automatically sync your data into Danswer, so you can find exactly what you&apos;re looking for in one place.",
+    "Import Knowledge": "Import Knowledge",
+    "Import Knowledge - Description": "Connect to pieces of knowledge that live outside your apps. Upload files, scrape websites, or connect to your organization&apos;s Google Site.",
+    "Setup Auto-Syncing from Apps": "Setup Auto-Syncing from Apps",
+    "Setup Auto-Syncing from Apps - Description": "Setup auto-syncing from your organization&apos;s most used apps and services. Unless otherwise specified during the connector setup, we will pull in the latest updates from the source every 10 minutes.",
+
+    "file": {
+        "File": "File",
+        "Specify Files - Description": "Specify files below, click the <b>Upload</b> button, and the contents of these files will be searchable via Danswer! Currently supported file types include <i>.txt</i>, <i>.pdf</i>, <i>.docx</i>, <i>.pptx</i>,<br/><i>.xlsx</i>, <i>.csv</i>, <i>.md</i>, <i>.mdx</i>, <i>.conf</i>,<br/><i>.log</i>, <i>.json</i>, <i>.tsv</i>, <i>.xml</i>, <i>.yml</i>,<br/><i>.yaml</i>, <i>.eml</i>, <i>.epub</i>, and finally <i>.zip</i> files (containing supported file types).",
+        "Specify Files - Note 1": "<b>NOTE:</b> if the original document is accessible via a link, you can add a line at the very beginning of the file that looks like:",
+        "Specify Files - Note 2": "where <i>{\"<LINK>\"}</i> is the link to the file This will enable Danswer to link users to the original document when they click on the search result. More details on this can be found in the<br/>",
+        "Documentation": "Documentation",
+        "Please enter a descriptive name for the files": "Please enter a descriptive name for the files",
+        "Unable to upload files": "Unable to upload files",
+        "Unable to create connector": "Unable to create connector",
+        "Error creating credential for CC Pair": "Error creating credential for CC Pair",
+        "Unable to link connector to credential": "Unable to link connector to credential",
+        "Unable to run connector": "Unable to run connector",
+        "Successfully uploaded files!": "Successfully uploaded files!",
+        "A name that describes the files e.g. \"Onboarding Documents\"": "A name that describes the files e.g. \"Onboarding Documents\"",
+        "File Names": "File Names",
+        "Upload!": "Upload!",
+        "Files": "Files",
+        "Upload Files": "Upload Files"
+    }
+}

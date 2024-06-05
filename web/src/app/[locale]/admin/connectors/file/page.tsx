@@ -20,11 +20,13 @@ import { FileUpload } from "@/components/admin/connectors/FileUpload";
 import { getNameFromPath } from "@/lib/fileUtils";
 import { Button, Card, Divider, Text } from "@tremor/react";
 import { AdminPageTitle } from "@/components/admin/Title";
+import { useTranslation } from "react-i18next";
 
 const Main = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [filesAreUploading, setFilesAreUploading] = useState<boolean>(false);
   const { popup, setPopup } = usePopup();
+  const { t } = useTranslation("connectors.file");
 
   const { mutate } = useSWRConfig();
 
@@ -37,7 +39,7 @@ const Main = () => {
   );
 
   if (!connectorIndexingStatuses && isConnectorIndexingStatusesLoading) {
-    return <LoadingAnimation text="Loading" />;
+    return <LoadingAnimation text={t("Loading")} />;
   }
 
   const fileIndexingStatuses: ConnectorIndexingStatus<FileConfig, {}>[] =
@@ -51,30 +53,21 @@ const Main = () => {
       {popup}
       {filesAreUploading && <Spinner />}
       <Text className="mb-2">
-        Specify files below, click the <b>Upload</b> button, and the contents of
-        these files will be searchable via Danswer! Currently supported file
-        types include <i>.txt</i>, <i>.pdf</i>, <i>.docx</i>, <i>.pptx</i>,{" "}
-        <i>.xlsx</i>, <i>.csv</i>, <i>.md</i>, <i>.mdx</i>, <i>.conf</i>,{" "}
-        <i>.log</i>, <i>.json</i>, <i>.tsv</i>, <i>.xml</i>, <i>.yml</i>,{" "}
-        <i>.yaml</i>, <i>.eml</i>, <i>.epub</i>, and finally <i>.zip</i> files
-        (containing supported file types).
+        {t("Specify Files - Description")}
       </Text>
       <Text className="mb-3">
-        <b>NOTE:</b> if the original document is accessible via a link, you can
-        add a line at the very beginning of the file that looks like:
+        {t("Specify Files - Note 1")}
         <div className="flex my-2">
           <div className="mx-auto font-bold">
             #DANSWER_METADATA={"{"}&quot;link&quot;: &quot;{"<LINK>"}&quot;{"}"}
           </div>
         </div>{" "}
-        where <i>{"<LINK>"}</i> is the link to the file. This will enable
-        Danswer to link users to the original document when they click on the
-        search result. More details on this can be found in the{" "}
+        {t("Specify Files - Note 2")}
         <a
           href="https://docs.danswer.dev/connectors/file"
           className="text-link"
         >
-          documentation.
+          {t("Documentation")}.
         </a>
       </Text>
       <div className="flex mt-4">
@@ -87,7 +80,7 @@ const Main = () => {
               }}
               validationSchema={Yup.object().shape({
                 name: Yup.string().required(
-                  "Please enter a descriptive name for the files"
+                  t("Please enter a descriptive name for the files")
                 ),
               })}
               onSubmit={async (values, formikHelpers) => {
@@ -105,7 +98,7 @@ const Main = () => {
                   const responseJson = await response.json();
                   if (!response.ok) {
                     setPopup({
-                      message: `Unable to upload files - ${responseJson.detail}`,
+                      message: `${t("Unable to upload files")} - ${responseJson.detail}`,
                       type: "error",
                     });
                     return;
@@ -125,7 +118,7 @@ const Main = () => {
                     });
                   if (connectorErrorMsg || !connector) {
                     setPopup({
-                      message: `Unable to create connector - ${connectorErrorMsg}`,
+                      message: `${t("Unable to create connector")} - ${connectorErrorMsg}`,
                       type: "error",
                     });
                     return;
@@ -142,7 +135,7 @@ const Main = () => {
                   if (!createCredentialResponse.ok) {
                     const errorMsg = await createCredentialResponse.text();
                     setPopup({
-                      message: `Error creating credential for CC Pair - ${errorMsg}`,
+                      message: `${t("Error creating credential for CC Pair")} - ${errorMsg}`,
                       type: "error",
                     });
                     formikHelpers.setSubmitting(false);
@@ -160,7 +153,7 @@ const Main = () => {
                     const credentialResponseJson =
                       await credentialResponse.json();
                     setPopup({
-                      message: `Unable to link connector to credential - ${credentialResponseJson.detail}`,
+                      message: `${t("Unable to link connector to credential")} - ${credentialResponseJson.detail}`,
                       type: "error",
                     });
                     return;
@@ -172,7 +165,7 @@ const Main = () => {
                   );
                   if (runConnectorErrorMsg) {
                     setPopup({
-                      message: `Unable to run connector - ${runConnectorErrorMsg}`,
+                      message: `${("Unable to run connector")} - ${runConnectorErrorMsg}`,
                       type: "error",
                     });
                     return;
@@ -183,7 +176,7 @@ const Main = () => {
                   formikHelpers.resetForm();
                   setPopup({
                     type: "success",
-                    message: "Successfully uploaded files!",
+                    message: t("Successfully uploaded files!"),
                   });
                 };
 
@@ -199,16 +192,16 @@ const Main = () => {
               {({ values, isSubmitting }) => (
                 <Form>
                   <h2 className="font-bold text-emphasis text-xl mb-2">
-                    Upload Files
+                    {t("Upload Files")}
                   </h2>
                   <TextFormField
                     name="name"
                     label="Name:"
-                    placeholder={`A name that describes the files e.g. "Onboarding Documents"`}
+                    placeholder={t("A name that describes the files e.g. \"Onboarding Documents\"")}
                     autoCompleteDisabled={true}
                   />
 
-                  <p className="mb-1 font-medium text-emphasis">Files:</p>
+                  <p className="mb-1 font-medium text-emphasis">{t("Files")}:</p>
                   <FileUpload
                     selectedFiles={selectedFiles}
                     setSelectedFiles={setSelectedFiles}
@@ -225,7 +218,7 @@ const Main = () => {
                         isSubmitting
                       }
                     >
-                      Upload!
+                      {t("Upload!")}
                     </Button>
                   </div>
                 </Form>
@@ -243,7 +236,7 @@ const Main = () => {
             connectorIndexingStatuses={fileIndexingStatuses}
             specialColumns={[
               {
-                header: "File Names",
+                header: t("File Names"),
                 key: "file_names",
                 getValue: (ccPairStatus) =>
                   ccPairStatus.connector.connector_specific_config.file_locations
@@ -262,13 +255,15 @@ const Main = () => {
 };
 
 export default function File() {
+  const { t } = useTranslation("connectors.file");
+
   return (
     <div className="mx-auto container">
       <div className="mb-4">
         <HealthCheckBanner />
       </div>
 
-      <AdminPageTitle icon={<FileIcon size={32} />} title="File" />
+      <AdminPageTitle icon={<FileIcon size={32} />} title={t("File")} />
 
       <Main />
     </div>

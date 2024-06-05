@@ -13,6 +13,7 @@ import { ApiKeyForm } from "@/components/llm/ApiKeyForm";
 import { WellKnownLLMProviderDescriptor } from "@/app/[locale]/admin/models/llm/interfaces";
 import { checkLlmProvider } from "./lib";
 import { User } from "@/lib/types";
+import { useTranslation } from "react-i18next";
 
 function setWelcomeFlowComplete() {
   Cookies.set(COMPLETED_WELCOME_FLOW_COOKIE, "true", { expires: 365 });
@@ -65,6 +66,8 @@ export function _WelcomeModal({ user }: { user: User | null }) {
     WellKnownLLMProviderDescriptor[]
   >([]);
 
+  const { t } = useTranslation("welcome");
+
   useEffect(() => {
     async function fetchProviderInfo() {
       const { providers, options, defaultCheckSuccessful } =
@@ -93,15 +96,14 @@ export function _WelcomeModal({ user }: { user: User | null }) {
               {apiKeyVerified && (
                 <FiCheckCircle className="my-auto mr-2 text-success" />
               )}
-              Step 1: Setup an LLM
+              {t("Step 1: Setup an LLM")}
             </Text>
             <div>
               {apiKeyVerified ? (
                 <Text className="mt-2">
-                  LLM setup complete!
+                  {t("LLM setup complete!")}
                   <br /> <br />
-                  If you want to change the key later, you&apos;ll be able to
-                  easily to do so in the Admin Panel.
+                  {t("If you want to change the key later, you&apos;ll be able to easily to do so in the Admin Panel.")}
                 </Text>
               ) : (
                 <ApiKeyForm
@@ -111,14 +113,11 @@ export function _WelcomeModal({ user }: { user: User | null }) {
               )}
             </div>
             <Text className="font-bold mt-6 mb-2">
-              Step 2: Connect Data Sources
+              {t("Step 2: Connect Data Sources")}
             </Text>
             <div>
               <Text>
-                Connectors are the way that Danswer gets data from your
-                organization&apos;s various data sources. Once setup, we&apos;ll
-                automatically sync data from your apps and docs into Danswer, so
-                you can search through all of them in one place.
+                {t("Step 2: Connect Data Sources - Description")}
               </Text>
 
               <div className="flex mt-3">
@@ -132,7 +131,7 @@ export function _WelcomeModal({ user }: { user: User | null }) {
                   className="w-fit mx-auto"
                 >
                   <Button size="xs" icon={FiShare2} disabled={!apiKeyVerified}>
-                    Setup your first connector!
+                    {t("Setup your first connector!")}
                   </Button>
                 </Link>
               </div>
@@ -152,15 +151,16 @@ export function _WelcomeModal({ user }: { user: User | null }) {
               {apiKeyVerified && (
                 <FiCheckCircle className="my-auto mr-2 text-success" />
               )}
-              Step 1: Setup an LLM
+              {t("Step 1: Setup an LLM")}
             </Text>
             <div>
               {apiKeyVerified ? (
                 <Text className="mt-2">
-                  LLM setup complete!
+                  {t("LLM setup complete!")}
                   <br /> <br />
-                  If you want to change the key later or choose a different LLM,
-                  you&apos;ll be able to easily to do so in the Admin Panel.
+                  {t(
+                    "If you want to change the key later, you&apos;ll be able to easily to do so in the Admin Panel."
+                  )}
                 </Text>
               ) : (
                 <div>
@@ -173,13 +173,11 @@ export function _WelcomeModal({ user }: { user: User | null }) {
             </div>
 
             <Text className="font-bold mt-6 mb-2 flex">
-              Step 2: Start Chatting!
+              {t("Step 2: Start Chatting!")}
             </Text>
 
             <Text>
-              Click the button below to start chatting with the LLM setup above!
-              Don&apos;t worry, if you do decide later on you want to connect
-              your organization&apos;s knowledge, you can always do that in the{" "}
+              {t("Step 2: Start Chatting! - Description")}{" "}
               <Link
                 className="text-link"
                 href="/admin/add-connector"
@@ -189,7 +187,7 @@ export function _WelcomeModal({ user }: { user: User | null }) {
                   router.push("/admin/add-connector");
                 }}
               >
-                Admin Panel
+                {t("Admin Panel")}
               </Link>
               .
             </Text>
@@ -206,7 +204,7 @@ export function _WelcomeModal({ user }: { user: User | null }) {
                 className="w-fit mx-auto"
               >
                 <Button size="xs" icon={FiShare2} disabled={!apiKeyVerified}>
-                  Start chatting!
+                  {t("Start chatting!")}
                 </Button>
               </Link>
             </div>
@@ -215,36 +213,33 @@ export function _WelcomeModal({ user }: { user: User | null }) {
       );
       break;
     default:
-      title = "🎉 Welcome to Danswer";
+      title = `🎉 ${t("Welcome to Danswer")}`;
       body = (
         <>
           <div>
-            <Text>How are you planning on using Danswer?</Text>
+            <Text>{t("How are you planning on using Danswer?")}</Text>
           </div>
           <Divider />
           <UsageTypeSection
-            title="Search / Chat with Knowledge"
+            title={t("Search / Chat with Knowledge")}
             description={
               <Text>
-                If you&apos;re looking to search through, chat with, or ask
-                direct questions of your organization&apos;s knowledge, then
-                this is the option for you!
+                {t("Search / Chat with Knowledge")}
               </Text>
             }
-            callToAction="Get Started"
+            callToAction={t("Get Started")}
             onClick={() => setSelectedFlow("search")}
           />
           <Divider />
           <UsageTypeSection
-            title="Secure ChatGPT"
+            title={t("Secure ChatGPT")}
             description={
               <Text>
-                If you&apos;re looking for a pure ChatGPT-like experience, then
-                this is the option for you!
+                {t("Secure ChatGPT - Description")}
               </Text>
             }
             icon={FiMessageSquare}
-            callToAction="Get Started"
+            callToAction={t("Get Started")}
             onClick={() => {
               setSelectedFlow("chat");
             }}

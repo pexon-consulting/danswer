@@ -5,7 +5,10 @@ import { Inter } from "next/font/google";
 import { SettingsProvider } from "@/components/settings/SettingsProvider";
 import IntlProvider from "@/components/IntlProvider";
 import initTranslations from "@/app/i18n";
-const i18nNamespaces = ["translation"];
+const i18nNamespaces = [
+  "connectors",
+  "welcome"
+];
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +33,8 @@ export default async function RootLayout({
 }) {
   const combinedSettings = await fetchSettingsSS();
   const { t, resources } = await initTranslations(locale, i18nNamespaces);
+
+  console.log("TRANSLATION RESOURCES: ", resources);
 
   return (
     <IntlProvider

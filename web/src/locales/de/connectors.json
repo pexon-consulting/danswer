@@ -1,0 +1,28 @@
+{
+    "Add Connector": "Connector hinzufügen",
+    "Description 1": "Verknüpfe Danswer mit den Datenquellen deiner Organisation. Wir synchronisieren die Daten dann automatisch mit Danswer, damit du alles an einem Platz finden kannst.",
+    "Import Knowledge": "Wissen importieren",
+    "Import Knowledge - Description": "Verknüpfe wissen dass ausserhalb deiner Organisation liegt. Lade Dateien hoch, scrape Webseiten, oder verbinde dich mit der Google Site deiner Organisation..",
+    "Setup Auto-Syncing from Apps": "Auto-Synchronisierung von Apps einrichten",
+    "Setup Auto-Syncing from Apps - Description": "Richte die automatische Synchronsierung von Apps ein. Sofern das während der Einrichtung des Connectors nicht anders angegeben wurdr, wird das alle 10 Minuten passieren.",
+
+    "file": {
+        "File": "Datei",
+        "Specify Files - Description": "Gib unten Dateien an, Klicke den <b>Hochladen</b> Button, und der Inhalt dieser Dateien wird in Danswer verügbar sein! Momentan unterstützte Dateitypen: <i>.txt</i>, <i>.pdf</i>, <i>.docx</i>, <i>.pptx</i>,<br/><i>.xlsx</i>, <i>.csv</i>, <i>.md</i>, <i>.mdx</i>, <i>.conf</i>,<br/><i>.log</i>, <i>.json</i>, <i>.tsv</i>, <i>.xml</i>, <i>.yml</i>,<br/><i>.yaml</i>, <i>.eml</i>, <i>.epub</i>, und <i>.zip</i> Dateien, die diese enthalten.",
+        "Specify Files - Note 1": "<b>Hinweis:</b> Wenn die Originaldatei per Link erreichbar ist, kannst du am Anfang der Datei folgendes eintragen:",
+        "Specify Files - Note 2": "wo <i>{\"<LINK>\"}</i> der Link zu dieser Datei ist. Damit ist sie per von Nutzern über das Suchergebnis erreichbar. Mehr Details findest du in der<br/>",
+        "Documentation": "Dokumentation",
+        "Please enter a descriptive name for the files": "Gib einen deskriptiven Namen für die Dateien an",
+        "Unable to upload files": "Konnte Dateien nicht hochladen",
+        "Unable to create connector": "Konnte Connector nicht erstellen",
+        "Error creating credential for CC Pair": "Fehler beim generieren von Credentials für CC Pair",
+        "Unable to link connector to credential": "Konnte Connector nicht mit Credentials verknüpfen",
+        "Unable to run connector": "Konnte Connector nicht ausführen",
+        "Successfully uploaded files!": "Dateien erfolgreich hochgeladen!",
+        "A name that describes the files e.g. \"Onboarding Documents\"": "Ein name der die Dateien beschreibt, z.B. \"Bewirtungsbelege\"",
+        "File Names": "Dateinamen",
+        "Upload!": "Hochladen!",
+        "Files": "Dateien",
+        "Upload Files": "Dateien hochladen"
+    }
+}

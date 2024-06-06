@@ -93,6 +93,7 @@ class DocumentSource(str, Enum):
     GOOGLE_SITES = "google_sites"
     ZENDESK = "zendesk"
     LOOPIO = "loopio"
+    DROPBOX = "dropbox"
     SHAREPOINT = "sharepoint"
     DISCOURSE = "discourse"
     AXERO = "axero"
@@ -138,3 +139,4 @@ class FileOrigin(str, Enum):
     CHAT_UPLOAD = "chat_upload"
     CHAT_IMAGE_GEN = "chat_image_gen"
     CONNECTOR = "connector"
+    OTHER = "other"

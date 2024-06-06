@@ -1,3 +1,5 @@
+"use client";
+
 import {
   FiCpu,
   FiImage,
@@ -24,6 +26,14 @@ import { ToolRunningAnimation } from "../tools/ToolRunningAnimation";
 import { Hoverable } from "@/components/Hoverable";
 import { DocumentPreview } from "../files/documents/DocumentPreview";
 import { InMessageImage } from "../files/images/InMessageImage";
+import { CodeBlock } from "./CodeBlock";
+import rehypePrism from "rehype-prism-plus";
+
+// Prism stuff
+import Prism from "prismjs";
+
+import "prismjs/themes/prism-tomorrow.css";
+import "./custom-code-styles.css";
 
 function FileDisplay({ files }: { files: FileDescriptor[] }) {
   const imageFiles = files.filter((file) => file.type === ChatFileType.IMAGE);
@@ -31,7 +41,6 @@ function FileDisplay({ files }: { files: FileDescriptor[] }) {
 
   return (
     <>
-      {" "}
       {nonImgFiles && nonImgFiles.length > 0 && (
         <div className="mt-2 mb-4">
           <div className="flex flex-col gap-2">
@@ -94,6 +103,36 @@ export const AIMessage = ({
   handleForceSearch?: () => void;
   retrievalDisabled?: boolean;
 }) => {
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    Prism.highlightAll();
+    setIsReady(true);
+  }, []);
+
+  // this is needed to give Prism a chance to load
+  if (!isReady) {
+    return <div />;
+  }
+
+  if (!isComplete) {
+    const trimIncompleteCodeSection = (
+      content: string | JSX.Element
+    ): string | JSX.Element => {
+      if (typeof content === "string") {
+        const pattern = /```[a-zA-Z]+[^\s]*$/;
+        const match = content.match(pattern);
+        if (match && match.index && match.index > 3) {
+          const newContent = content.slice(0, match.index - 3);
+          return newContent;
+        }
+        return content;
+      }
+      return content;
+    };
+
+    content = trimIncompleteCodeSection(content);
+  }
+
   const loader =
     currentTool === IMAGE_GENERATION_TOOL_NAME ? (
       <div className="text-sm my-auto">
@@ -181,18 +220,38 @@ export const AIMessage = ({
 
                 {typeof content === "string" ? (
                   <ReactMarkdown
+                    key={messageId}
                     className="prose max-w-full"
                     components={{
-                      a: ({ node, ...props }) => (
-                        <a
-                          {...props}
-                          className="text-blue-500 hover:text-blue-700"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        />
+                      a: (props) => {
+                        const { node, ...rest } = props;
+                        // for some reason <a> tags cause the onClick to not apply
+                        // and the links are unclickable
+                        // TODO: fix the fact that you have to double click to follow link
+                        // for the first link
+                        return (
+                          <a
+                            key={node?.position?.start?.offset}
+                            onClick={() =>
+                              rest.href
+                                ? window.open(rest.href, "_blank")
+                                : undefined
+                            }
+                            className="cursor-pointer text-link hover:text-link-hover"
+                            // href={rest.href}
+                            // target="_blank"
+                            // rel="noopener noreferrer"
+                          >
+                            {rest.children}
+                          </a>
+                        );
+                      },
+                      code: (props) => (
+                        <CodeBlock {...props} content={content as string} />
                       ),
                     }}
                     remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[[rehypePrism, { ignoreMissing: true }]]}
                   >
                     {content}
                   </ReactMarkdown>
@@ -459,22 +518,9 @@ export const HumanMessage = ({
                   </div>
                 </div>
               ) : typeof content === "string" ? (
-                <ReactMarkdown
-                  className="prose max-w-full"
-                  components={{
-                    a: ({ node, ...props }) => (
-                      <a
-                        {...props}
-                        className="text-blue-500 hover:text-blue-700"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      />
-                    ),
-                  }}
-                  remarkPlugins={[remarkGfm]}
-                >
+                <div className="flex flex-col preserve-lines prose max-w-full">
                   {content}
-                </ReactMarkdown>
+                </div>
               ) : (
                 content
               )}
